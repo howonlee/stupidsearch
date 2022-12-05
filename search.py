@@ -29,10 +29,11 @@ if __name__ == "__main__":
     with open("kjv.txt", "r") as kjv_file:
         unprocessed = kjv_file.read()
         no_unicode = re.sub(r'[^\x00-\x7f]', "", unprocessed)
-        corpus = no_unicode.lower().split()
+        corpus = set(no_unicode.lower().split())
         alphabet = list(string.printable)
         alph_vecs = {letter: normalized_pareto() for letter in alphabet}
         corpus_vecs = {word: word_to_vec(word, alph_vecs) for word in corpus}
+        print(len(corpus))
         while True:
             q = input("Query: ")
             print("\n".join(map(str, query(q, corpus_vecs, alph_vecs)[:5])))
