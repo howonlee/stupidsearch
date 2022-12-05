@@ -8,20 +8,22 @@ import operator
 
 def normalized_uniform():
     res = npr.uniform(size=100)
-    return res / res.sum()
+    return res / npl.norm(res)
 
 def word_to_vec(word, alphabet):
     letters = list(word)
     res = np.zeros(100)
     for letter in letters:
         res += alphabet[letter]
-    return res / res.sum()
+    return res / npl.norm(res)
 
 def query(q, corpus_vecs, alph_vecs):
     q_vec = word_to_vec(q, alph_vecs)
     res = []
     for key, vec in corpus_vecs.items():
-        sim = np.dot(q_vec, vec) / (npl.norm(q_vec) * npl.norm(vec))
+        # normally we need to divide by npl norm but those are uniformly 1 because we made it so...
+        # / (npl.norm(q_vec) * npl.norm(vec)) => put it back in if you'd like, no difference
+        sim = np.dot(q_vec, vec)
         res.append([key, sim])
     return list(sorted(res, key=operator.itemgetter(1), reverse=True))
 
