@@ -26,7 +26,7 @@ def query(q, corpus_vecs, alph_vecs):
     return list(sorted(res, key=operator.itemgetter(1), reverse=True))
 
 if __name__ == "__main__":
-    with open("kjv.txt", "r") as kjv_file:
+    with open("corpus.txt", "r") as kjv_file:
         unprocessed = kjv_file.read()
         no_unicode = re.sub(r'[^\x00-\x7f]', "", unprocessed)
         corpus = set(no_unicode.lower().split())
