@@ -3,6 +3,7 @@ import numpy.random as npr
 import numpy.linalg as npl
 import string
 import sys
+import re
 import operator
 
 def normalized_pareto():
@@ -25,12 +26,15 @@ def query(q, corpus_vecs, alph_vecs):
     return list(sorted(res, key=operator.itemgetter(1), reverse=True))
 
 if __name__ == "__main__":
-    corpus = "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum".lower().split()
-    alphabet = list(string.ascii_lowercase)
-    alph_vecs = {letter: normalized_pareto() for letter in alphabet}
-    corpus_vecs = {word: word_to_vec(word, alph_vecs) for word in corpus}
-    while True:
-        q = input()
-        print(query(q, corpus_vecs, alph_vecs)[:5])
-        if q == "quit":
-            sys.exit(0)
+    with open("kjv.txt", "r") as kjv_file:
+        unprocessed = kjv_file.read()
+        no_unicode = re.sub(r'[^\x00-\x7f]', "", unprocessed)
+        corpus = no_unicode.lower().split()
+        alphabet = list(string.printable)
+        alph_vecs = {letter: normalized_pareto() for letter in alphabet}
+        corpus_vecs = {word: word_to_vec(word, alph_vecs) for word in corpus}
+        while True:
+            q = input("Query: ")
+            print("\n".join(map(str, query(q, corpus_vecs, alph_vecs)[:5])))
+            if q == "quit":
+                sys.exit(0)
