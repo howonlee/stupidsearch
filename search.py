@@ -6,8 +6,8 @@ import sys
 import re
 import operator
 
-def normalized_pareto():
-    res = npr.pareto(1, size=100)
+def normalized_uniform():
+    res = npr.uniform(size=100)
     return res / res.sum()
 
 def word_to_vec(word, alphabet):
@@ -31,7 +31,7 @@ if __name__ == "__main__":
         no_unicode = re.sub(r'[^\x00-\x7f]', "", unprocessed)
         corpus = set(no_unicode.lower().split())
         alphabet = list(string.printable)
-        alph_vecs = {letter: normalized_pareto() for letter in alphabet}
+        alph_vecs = {letter: normalized_uniform() for letter in alphabet}
         corpus_vecs = {word: word_to_vec(word, alph_vecs) for word in corpus}
         print(len(corpus))
         while True:
