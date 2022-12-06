@@ -30,13 +30,13 @@ def query(q, corpus_vecs, ngram_vecs, n):
     return list(sorted(res, key=operator.itemgetter(1), reverse=True))
 
 if __name__ == "__main__":
-    n = 2
+    n = 3
     with open("corpus.txt", "r") as corpus_file:
         unprocessed = corpus_file.read()
         no_unicode = re.sub(r'[^\x00-\x7f]', "", unprocessed)
         corpus = set(no_unicode.lower().split())
         alphabet = list(string.printable)
-        ngram_vecs = {"".join(ngram): normalized_uniform() for ngram in itertools.product(alphabet, repeat=2)}
+        ngram_vecs = {"".join(ngram): normalized_uniform() for ngram in itertools.product(alphabet, repeat=n)}
         corpus_vecs = {word: word_to_ngram_vec(word, ngram_vecs, n) for word in corpus}
         while True:
             q = input("Query: ")
