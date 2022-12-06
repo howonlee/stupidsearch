@@ -7,7 +7,7 @@ There's another implementation with n-grams stuck in there too.
 
 Usage:
 
-Put a corpus in `corpus.txt`.
+Put an ascii corpus in `corpus.txt` (nothing preventing it from working in unicode except a lot of necessary laziness...).
 
 ```python3 search.py```
 
